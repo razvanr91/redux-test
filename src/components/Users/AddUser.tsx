@@ -3,14 +3,18 @@ import Button from "../UI/Button";
 import Card from "../UI/Card";
 import classes from "./AddUser.module.css";
 
-interface Props {}
-
 const AddUser = () => {
 	const [enteredUsername, setEnteredUsername] = useState("");
-	const [enteredAge, setEnteredAge] = useState(Number);
+	const [enteredAge, setEnteredAge] = useState(0);
 	const addUserHandler = (e: React.SyntheticEvent) => {
 		e.preventDefault();
+		if (enteredUsername.trim().length === 0 || enteredAge <= 0) {
+			console.log("No data entered or age is too small");
+			return;
+		}
 		console.log(enteredUsername, enteredAge);
+		setEnteredUsername("");
+		setEnteredAge(0);
 	};
 
 	const usernameChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,9 +29,9 @@ const AddUser = () => {
 		<Card className={classes.input}>
 			<form onSubmit={addUserHandler}>
 				<label htmlFor="username">Username</label>
-				<input id="username" type="text" onChange={usernameChangeHandler} />
+				<input id="username" type="text" onChange={usernameChangeHandler} value={enteredUsername} />
 				<label htmlFor="age">Age (Years)</label>
-				<input id="age" type="number" onChange={ageChangeHandler} />
+				<input id="age" type="number" onChange={ageChangeHandler} value={enteredAge} />
 				<Button type="submit" onClick={addUserHandler}>
 					Add User
 				</Button>
